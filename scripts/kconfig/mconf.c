@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include "pkg_conf.h"
+#include "pkg_manager_init.h"
 
 #include "lkc.h"
 #include "lxdialog/dialog.h"
@@ -796,6 +797,7 @@ static void conf(struct menu *menu, struct menu *active_menu)
 	struct symbol *sym;
 	int res;
 	int s_scroll = 0;
+	pkg_manager_init();
 	// Assuming 'root_menu' is the root menu item of your configuration menu
 
 	// Call the pkg_conf function with the root menu
