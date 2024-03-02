@@ -811,6 +811,7 @@ static void conf(struct menu *menu, struct menu *active_menu)
 		if (!child_count)
 			break;
 		set_subtitle();
+		repo_init_sqlgo_keyword();
 		dialog_clear();
 		res = dialog_menu(prompt ? prompt : "Main Menu",
 				  menu_instructions,
