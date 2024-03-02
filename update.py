@@ -7,7 +7,7 @@ except:
 import os
 
 def update_from_git():
-    repository_url = "https://github.com/HeisenbergCipherCracker/sqlgo.git"
+    repository_url = "https://github.com/HeisenbergCipherCracker/linux-neat.git"
     local_path = os.getcwd()
 
     try:
