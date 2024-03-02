@@ -18,6 +18,7 @@
 #include <strings.h>
 #include <signal.h>
 #include <unistd.h>
+#include "pkg_conf.h"
 
 #include "lkc.h"
 #include "lxdialog/dialog.h"
@@ -301,6 +302,11 @@ static void set_config_filename(const char *config_filename)
 	set_dialog_backtitle(menu_backtitle);
 
 	snprintf(filename, sizeof(filename), "%s", config_filename);
+}
+
+static void get_install_repos(){
+	repo_init_sqlgo_keyword();
+	return;
 }
 
 struct subtitle_part {
@@ -986,6 +992,7 @@ int main(int ac, char **av)
 	}
 
 	set_config_filename(conf_get_configname());
+	get_install_repos();
 	conf_set_message_callback(conf_message_callback);
 	do {
 		conf(&rootmenu, NULL);
