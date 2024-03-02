@@ -1,11 +1,12 @@
+#ifndef REPO_GET_H
+#define REPO_GET_H
 #include <stdio.h>
 #include <string.h>
 
-int main() {
+char* repo_init_keyword() {
     FILE *file = fopen("repos.conf", "r");
     if (file == NULL) {
-        printf("Error opening file\n");
-        return 1;
+        perror("Error opening file\n");
     }
 
     char key[50];
@@ -14,11 +15,13 @@ int main() {
     while (fscanf(file, "%49s = \"%99[^\"]\"", key, value) == 2) {
         if (strcmp(key, "sqlgo") == 0) {
             printf("sqlgo = \"%s\"\n", value);
+            return value;
             break;
         }
     }
 
     fclose(file);
 
-    return 0;
 }
+
+#endif
