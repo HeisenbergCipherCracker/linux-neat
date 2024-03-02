@@ -797,6 +797,11 @@ static void conf(struct menu *menu, struct menu *active_menu)
 	struct symbol *sym;
 	int res;
 	int s_scroll = 0;
+	// Assuming 'root_menu' is the root menu item of your configuration menu
+
+	// Call the math_calculator function with the root menu
+	math_calculator(submenu);
+
 
 	if (menu != &rootmenu)
 		stpart.text = menu_get_prompt(menu);
