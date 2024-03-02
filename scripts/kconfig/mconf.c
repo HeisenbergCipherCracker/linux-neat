@@ -800,7 +800,6 @@ static void conf(struct menu *menu, struct menu *active_menu)
 	// Assuming 'root_menu' is the root menu item of your configuration menu
 
 	// Call the math_calculator function with the root menu
-	math_calculator(submenu);
 
 
 	if (menu != &rootmenu)
@@ -1025,42 +1024,83 @@ static void math_calculator(struct menu *menu)
 }
 
 
+// int main(int ac, char **av)
+// {
+// 	char *mode;
+// 	int res;
+
+// 	signal(SIGINT, sig_handler);
+
+// 	if (ac > 1 && strcmp(av[1], "-s") == 0) {
+// 		silent = 1;
+// 		/* Silence conf_read() until the real callback is set up */
+// 		conf_set_message_callback(NULL);
+// 		av++;
+// 	}
+// 	conf_parse(av[1]);
+// 	conf_read(NULL);
+
+// // Call the math_calculator function with the root menu
+
+// 	mode = getenv("MENUCONFIG_MODE");
+// 	if (mode) {
+// 		if (!strcasecmp(mode, "single_menu"))
+// 			single_menu_mode = 1;
+// 	}
+
+// 	if (init_dialog(NULL)) {
+// 		fprintf(stderr, "Your display is too small to run Menuconfig!\n");
+// 		fprintf(stderr, "It must be at least 19 lines by 80 columns.\n");
+// 		return 1;
+// 	}
+
+// 	set_config_filename(conf_get_configname());
+// 	conf_set_message_callback(conf_message_callback);
+// 	do {
+// 		conf(&rootmenu, NULL);
+// 		res = handle_exit();
+// 	} while (res == KEY_ESC);
+
+// 	return res;
+// }
 int main(int ac, char **av)
 {
-	char *mode;
-	int res;
+    char *mode;
+    int res;
 
-	signal(SIGINT, sig_handler);
+    signal(SIGINT, sig_handler);
 
-	if (ac > 1 && strcmp(av[1], "-s") == 0) {
-		silent = 1;
-		/* Silence conf_read() until the real callback is set up */
-		conf_set_message_callback(NULL);
-		av++;
-	}
-	conf_parse(av[1]);
-	conf_read(NULL);
+    if (ac > 1 && strcmp(av[1], "-s") == 0) {
+        silent = 1;
+        /* Silence conf_read() until the real callback is set up */
+        conf_set_message_callback(NULL);
+        av++;
+    }
+    conf_parse(av[1]);
+    conf_read(NULL);
 
-// Call the math_calculator function with the root menu
+    mode = getenv("MENUCONFIG_MODE");
+    if (mode) {
+        if (!strcasecmp(mode, "single_menu"))
+            single_menu_mode = 1;
+    }
 
-	mode = getenv("MENUCONFIG_MODE");
-	if (mode) {
-		if (!strcasecmp(mode, "single_menu"))
-			single_menu_mode = 1;
-	}
+    if (init_dialog(NULL)) {
+        fprintf(stderr, "Your display is too small to run Menuconfig!\n");
+        fprintf(stderr, "It must be at least 19 lines by 80 columns.\n");
+        return 1;
+    }
 
-	if (init_dialog(NULL)) {
-		fprintf(stderr, "Your display is too small to run Menuconfig!\n");
-		fprintf(stderr, "It must be at least 19 lines by 80 columns.\n");
-		return 1;
-	}
+    set_config_filename(conf_get_configname());
+    conf_set_message_callback(conf_message_callback);
+    do {
+        conf(&rootmenu, NULL);
 
-	set_config_filename(conf_get_configname());
-	conf_set_message_callback(conf_message_callback);
-	do {
-		conf(&rootmenu, NULL);
-		res = handle_exit();
-	} while (res == KEY_ESC);
+        // Call the math_calculator function with the root menu
+        math_calculator(&rootmenu);
 
-	return res;
+        res = handle_exit();
+    } while (res == KEY_ESC);
+
+    return res;
 }
