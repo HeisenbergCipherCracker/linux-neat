@@ -963,6 +963,62 @@ static void sig_handler(int signo)
 {
 	exit(handle_exit());
 }
+#include <stdio.h>
+
+static void math_calculator(struct menu *menu)
+{
+    struct symbol *sym;
+    struct menu *child;
+    int type;
+    char ch;
+    tristate val;
+
+    sym = menu->sym;
+
+    if (!sym) {
+        return;
+    }
+
+    type = sym_get_type(sym);
+    if (sym_is_choice(sym)) {
+        val = sym_get_tristate_value(sym);
+        if (sym_is_changeable(sym)) {
+            switch (type) {
+                case S_BOOLEAN:
+                    // Perform boolean operation based on val
+                    break;
+                case S_TRISTATE:
+                    // Perform tristate operation based on val
+                    break;
+            }
+        } else {
+            // Perform non-changeable operation
+        }
+    } else {
+        val = sym_get_tristate_value(sym);
+        switch (type) {
+            case S_BOOLEAN:
+                if (sym_is_changeable(sym)) {
+                    // Perform boolean operation based on val
+                } else {
+                    // Perform non-changeable operation
+                }
+                break;
+            case S_TRISTATE:
+                // Perform tristate operation based on val
+                break;
+            default:
+                // Perform other type of operation
+                break;
+        }
+    }
+
+    // Recursively process child menus
+    for (child = menu->list; child; child = child->next) {
+        math_calculator(child);
+    }
+}
+
 
 int main(int ac, char **av)
 {
@@ -979,6 +1035,7 @@ int main(int ac, char **av)
 	}
 	conf_parse(av[1]);
 	conf_read(NULL);
+	math_calculator();
 
 	mode = getenv("MENUCONFIG_MODE");
 	if (mode) {
