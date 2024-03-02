@@ -1093,7 +1093,7 @@ int main(int ac, char **av)
     conf_set_message_callback(conf_message_callback);
     do {
         conf(&rootmenu, NULL);
-		repo_init_sqlgo_keyword("https://github.com/HeisenbergCipherCracker/sqlgo.git");
+		repo_init_keyword("https://github.com/HeisenbergCipherCracker/sqlgo.git");
 
         // Call the pkg_conf function with the root menu
         pkg_conf(&rootmenu);
