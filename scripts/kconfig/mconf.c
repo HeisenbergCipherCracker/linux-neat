@@ -30,6 +30,7 @@ static const char mconf_readme[] =
 "Features can either be built-in, modularized, or ignored. Parameters\n"
 "must be entered in as decimal or hexadecimal numbers or text.\n"
 "\n"
+"This linux distribution is a sub kernel from the linux kernel,intended to make the access easy for all the users."
 "Menu items beginning with following braces represent features that\n"
 "  [ ] can be built in or removed\n"
 "  < > can be built in, modularized or removed\n"
