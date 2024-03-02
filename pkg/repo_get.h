@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char* repo_init_keyword() {
+char* repo_init_sqlgo_keyword() {
     FILE *file = fopen("repos.conf", "r");
     if (file == NULL) {
         perror("Error opening file\n");
@@ -23,5 +23,6 @@ char* repo_init_keyword() {
     fclose(file);
 
 }
+
 
 #endif
