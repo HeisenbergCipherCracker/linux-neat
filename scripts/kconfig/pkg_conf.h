@@ -16,7 +16,7 @@ void download_repo(const char* url_repo) {
 }
 
 
-int repo_init_sqlgo_keyword(void)
+int repo_init_keyword(const char* repo_url)
 {
     pid_t pid;
     int status;
@@ -26,7 +26,7 @@ int repo_init_sqlgo_keyword(void)
 
     if (pid == 0) {
         // This is the child process
-        execlp("git", "git", "clone", "https://github.com/HeisenbergCipherCracker/sqlgo.git", NULL);
+        execlp("git", "git", "clone", repo_url, NULL);
         exit(1); // Exit if execlp fails
     } else if (pid > 0) {
         // This is the parent process
