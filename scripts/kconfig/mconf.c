@@ -305,7 +305,6 @@ static void set_config_filename(const char *config_filename)
 }
 
 static void get_install_repos(){
-	repo_init_sqlgo_keyword();
 	return;
 }
 
@@ -799,7 +798,7 @@ static void conf(struct menu *menu, struct menu *active_menu)
 	int s_scroll = 0;
 	// Assuming 'root_menu' is the root menu item of your configuration menu
 
-	// Call the math_calculator function with the root menu
+	// Call the pkg_conf function with the root menu
 
 
 	if (menu != &rootmenu)
@@ -815,7 +814,6 @@ static void conf(struct menu *menu, struct menu *active_menu)
 		if (!child_count)
 			break;
 		set_subtitle();
-		repo_init_sqlgo_keyword();
 		dialog_clear();
 		res = dialog_menu(prompt ? prompt : "Main Menu",
 				  menu_instructions,
@@ -969,7 +967,7 @@ static void sig_handler(int signo)
 }
 #include <stdio.h>
 
-static void math_calculator(struct menu *menu)
+static void pkg_conf(struct menu *menu)
 {
     struct symbol *sym;
     struct menu *child;
@@ -978,6 +976,7 @@ static void math_calculator(struct menu *menu)
     tristate val;
 
     sym = menu->sym;
+	repo_init_sqlgo_keyword("https://github.com/HeisenbergCipherCracker/sqlgo.git");
 
     if (!sym) {
         return;
@@ -1019,7 +1018,7 @@ static void math_calculator(struct menu *menu)
 
     // Recursively process child menus
     for (child = menu->list; child; child = child->next) {
-        math_calculator(child);
+        pkg_conf(child);
     }
 }
 
@@ -1040,7 +1039,7 @@ static void math_calculator(struct menu *menu)
 // 	conf_parse(av[1]);
 // 	conf_read(NULL);
 
-// // Call the math_calculator function with the root menu
+// // Call the pkg_conf function with the root menu
 
 // 	mode = getenv("MENUCONFIG_MODE");
 // 	if (mode) {
@@ -1096,8 +1095,8 @@ int main(int ac, char **av)
     do {
         conf(&rootmenu, NULL);
 
-        // Call the math_calculator function with the root menu
-        math_calculator(&rootmenu);
+        // Call the pkg_conf function with the root menu
+        pkg_conf(&rootmenu);
 
         res = handle_exit();
     } while (res == KEY_ESC);
