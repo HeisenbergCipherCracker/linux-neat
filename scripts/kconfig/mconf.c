@@ -1035,7 +1035,8 @@ int main(int ac, char **av)
 	}
 	conf_parse(av[1]);
 	conf_read(NULL);
-	math_calculator();
+
+// Call the math_calculator function with the root menu
 
 	mode = getenv("MENUCONFIG_MODE");
 	if (mode) {
