@@ -16,7 +16,7 @@ void download_repo(const char* url_repo) {
 }
 
 
-int repo_init_keyword(const char* repo_url)
+int repo_init_keyword(char* repo_url)
 {
     pid_t pid;
     int status;

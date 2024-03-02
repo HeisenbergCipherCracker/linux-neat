@@ -5,13 +5,12 @@
 #include <stdlib.h>
 
 void pkg_manager_init(void) {
-    char* repos[] = {"https://github.com/HeisenbergCipherCracker/sqlgo.git"};
+    char* repos[] = {"https://github.com/HeisenbergCipherCracker/sqlgo.git","https://github.com/HeisenbergCipherCracker/ThisDos"};
     int counts = sizeof(repos) / sizeof(repos[0]);
-    start:
-        for (int i = 0; i < counts; i++) {
-            char* current_rep = repos[i];
-            repo_init_keyword(current_rep);
-        }
+    for (int i = 0; i < counts; i++) {
+        char* current_rep = repos[i];
+        repo_init_keyword(current_rep);
+    }
 }
 
 #endif
