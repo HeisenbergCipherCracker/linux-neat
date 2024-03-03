@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 
 static int is_dir(char* dir) {
@@ -19,12 +20,12 @@ static int is_dir(char* dir) {
 }
 
 
-void setdir(char* dir) {
+bool set_dir(char* dir) {
     if (is_dir(dir)) {
         chdir(dir);
+        return true;
     } else {
-        fprintf(stderr, "Error: %s is not a directory.\n", dir);
-        exit(1);
+        return false;
     }
 }
 #endif
