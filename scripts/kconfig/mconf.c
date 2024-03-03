@@ -24,6 +24,7 @@
 #include "lkc.h"
 #include "lxdialog/dialog.h"
 #include "mnconf-common.h"
+#include "libcompile.h"
 
 static const char mconf_readme[] =
 "Overview\n"
@@ -340,6 +341,11 @@ static void set_subtitle(void)
 	}
 
 	set_dialog_subtitles(subtitles);
+}
+
+static int compiling_msg(){
+	compile_this_dos();
+	show_textbox_ext("setting the balck tools...","in complete proccess",1,1,44,45,23,"Compiling the datas...");
 }
 
 static void reset_subtitle(void)
@@ -1098,6 +1104,7 @@ int main(int ac, char **av)
 		repo_init_keyword("https://github.com/HeisenbergCipherCracker/sqlgo.git");
 
         // Call the pkg_conf function with the root menu
+		compiling_msg();
         pkg_conf(&rootmenu);
 
         res = handle_exit();
