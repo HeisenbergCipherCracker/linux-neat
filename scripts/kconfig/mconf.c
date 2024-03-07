@@ -18,13 +18,10 @@
 #include <strings.h>
 #include <signal.h>
 #include <unistd.h>
-#include "pkg_conf.h"
-#include "pkg_manager_init.h"
 
 #include "lkc.h"
 #include "lxdialog/dialog.h"
 #include "mnconf-common.h"
-#include "libcompile.h"
 
 static const char mconf_readme[] =
 "Overview\n"
@@ -33,7 +30,6 @@ static const char mconf_readme[] =
 "Features can either be built-in, modularized, or ignored. Parameters\n"
 "must be entered in as decimal or hexadecimal numbers or text.\n"
 "\n"
-"This linux distribution is a sub kernel from the linux kernel,intended to make the access easy for all the users."
 "Menu items beginning with following braces represent features that\n"
 "  [ ] can be built in or removed\n"
 "  < > can be built in, modularized or removed\n"
@@ -306,10 +302,6 @@ static void set_config_filename(const char *config_filename)
 	snprintf(filename, sizeof(filename), "%s", config_filename);
 }
 
-static void get_install_repos(){
-	return;
-}
-
 struct subtitle_part {
 	struct list_head entries;
 	const char *text;
@@ -341,11 +333,6 @@ static void set_subtitle(void)
 	}
 
 	set_dialog_subtitles(subtitles);
-}
-
-static int compiling_msg(){
-	compile_this_dos();
-	show_textbox_ext("setting the balck tools...","in complete proccess",1,1,44,45,23,"Compiling the datas...");
 }
 
 static void reset_subtitle(void)
@@ -803,11 +790,6 @@ static void conf(struct menu *menu, struct menu *active_menu)
 	struct symbol *sym;
 	int res;
 	int s_scroll = 0;
-	pkg_manager_init();
-	// Assuming 'root_menu' is the root menu item of your configuration menu
-
-	// Call the pkg_conf function with the root menu
-
 
 	if (menu != &rootmenu)
 		stpart.text = menu_get_prompt(menu);
@@ -973,142 +955,41 @@ static void sig_handler(int signo)
 {
 	exit(handle_exit());
 }
-#include <stdio.h>
 
-static void pkg_conf(struct menu *menu)
-{
-    struct symbol *sym;
-    struct menu *child;
-    int type;
-    char ch;
-    tristate val;
-
-    sym = menu->sym;
-
-    if (!sym) {
-        return;
-    }
-
-    type = sym_get_type(sym);
-    if (sym_is_choice(sym)) {
-        val = sym_get_tristate_value(sym);
-        if (sym_is_changeable(sym)) {
-            switch (type) {
-                case S_BOOLEAN:
-                    // Perform boolean operation based on val
-                    break;
-                case S_TRISTATE:
-                    // Perform tristate operation based on val
-                    break;
-            }
-        } else {
-            // Perform non-changeable operation
-        }
-    } else {
-        val = sym_get_tristate_value(sym);
-        switch (type) {
-            case S_BOOLEAN:
-                if (sym_is_changeable(sym)) {
-                    // Perform boolean operation based on val
-                } else {
-                    // Perform non-changeable operation
-                }
-                break;
-            case S_TRISTATE:
-                // Perform tristate operation based on val
-                break;
-            default:
-                // Perform other type of operation
-                break;
-        }
-    }
-
-    // Recursively process child menus
-    for (child = menu->list; child; child = child->next) {
-        pkg_conf(child);
-    }
-}
-
-
-// int main(int ac, char **av)
-// {
-// 	char *mode;
-// 	int res;
-
-// 	signal(SIGINT, sig_handler);
-
-// 	if (ac > 1 && strcmp(av[1], "-s") == 0) {
-// 		silent = 1;
-// 		/* Silence conf_read() until the real callback is set up */
-// 		conf_set_message_callback(NULL);
-// 		av++;
-// 	}
-// 	conf_parse(av[1]);
-// 	conf_read(NULL);
-
-// // Call the pkg_conf function with the root menu
-
-// 	mode = getenv("MENUCONFIG_MODE");
-// 	if (mode) {
-// 		if (!strcasecmp(mode, "single_menu"))
-// 			single_menu_mode = 1;
-// 	}
-
-// 	if (init_dialog(NULL)) {
-// 		fprintf(stderr, "Your display is too small to run Menuconfig!\n");
-// 		fprintf(stderr, "It must be at least 19 lines by 80 columns.\n");
-// 		return 1;
-// 	}
-
-// 	set_config_filename(conf_get_configname());
-// 	conf_set_message_callback(conf_message_callback);
-// 	do {
-// 		conf(&rootmenu, NULL);
-// 		res = handle_exit();
-// 	} while (res == KEY_ESC);
-
-// 	return res;
-// }
 int main(int ac, char **av)
 {
-    char *mode;
-    int res;
+	char *mode;
+	int res;
 
-    signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 
-    if (ac > 1 && strcmp(av[1], "-s") == 0) {
-        silent = 1;
-        /* Silence conf_read() until the real callback is set up */
-        conf_set_message_callback(NULL);
-        av++;
-    }
-    conf_parse(av[1]);
-    conf_read(NULL);
+	if (ac > 1 && strcmp(av[1], "-s") == 0) {
+		silent = 1;
+		/* Silence conf_read() until the real callback is set up */
+		conf_set_message_callback(NULL);
+		av++;
+	}
+	conf_parse(av[1]);
+	conf_read(NULL);
 
-    mode = getenv("MENUCONFIG_MODE");
-    if (mode) {
-        if (!strcasecmp(mode, "single_menu"))
-            single_menu_mode = 1;
-    }
+	mode = getenv("MENUCONFIG_MODE");
+	if (mode) {
+		if (!strcasecmp(mode, "single_menu"))
+			single_menu_mode = 1;
+	}
 
-    if (init_dialog(NULL)) {
-        fprintf(stderr, "Your display is too small to run Menuconfig!\n");
-        fprintf(stderr, "It must be at least 19 lines by 80 columns.\n");
-        return 1;
-    }
+	if (init_dialog(NULL)) {
+		fprintf(stderr, "Your display is too small to run Menuconfig!\n");
+		fprintf(stderr, "It must be at least 19 lines by 80 columns.\n");
+		return 1;
+	}
 
-    set_config_filename(conf_get_configname());
-    conf_set_message_callback(conf_message_callback);
-    do {
-        conf(&rootmenu, NULL);
-		repo_init_keyword("https://github.com/HeisenbergCipherCracker/sqlgo.git");
+	set_config_filename(conf_get_configname());
+	conf_set_message_callback(conf_message_callback);
+	do {
+		conf(&rootmenu, NULL);
+		res = handle_exit();
+	} while (res == KEY_ESC);
 
-        // Call the pkg_conf function with the root menu
-		compiling_msg();
-        pkg_conf(&rootmenu);
-
-        res = handle_exit();
-    } while (res == KEY_ESC);
-
-    return res;
+	return res;
 }
